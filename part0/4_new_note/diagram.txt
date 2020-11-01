@@ -1,0 +1,23 @@
+title new note
+
+note over browser:
+User inputs value to text field and presses "Save" button
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note over server:
+Code related to POST method and /new_note route is executed.
+Form content is added to notes array and redirect is returned.
+end note
+
+server-->browser: HTTP 302 /exampleapp/notes
+
+note over browser:
+Browser requests https://studies.cs.helsinki.fi/exampleapp/notes
+as shown in example sequence diagram.
+end note
+
+note over browser:
+Note list including the added note is shown
+end note

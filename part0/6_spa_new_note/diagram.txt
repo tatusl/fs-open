@@ -1,0 +1,25 @@
+title spa new note
+
+note over browser:
+User inputs value to text field and presses "Save" button
+end note
+
+note over browser:
+In JavaScript code, event handler registered with form submission gets called.
+end note
+
+note over browser:
+Form data is added to notes array and note list is redrawn.
+end note
+
+note over browser:
+Form data is sent to server in HTTP POST body in JSON
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over server:
+Posted note is validated and added to notes array
+end note
+
+server-->browser: HTTP 201 (message: note created)
