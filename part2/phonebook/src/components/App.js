@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -31,48 +34,32 @@ const App = () => {
 
   const handleNameFilter = (event) => setNameFilter(event.target.value)
 
-  const listStyle = {
-    listStyle: 'none',
-    paddingLeft: 0
+  const nameFilterProps = {
+    nameFilter,
+    handleNameFilter
+  }
+
+  const personFormProps = {
+    addPerson,
+    newName,
+    handleNameChange,
+    newNumber,
+    handleNumberChange
+  }
+
+  const personsProps = {
+    persons,
+    nameFilter
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with: <input
-          value={nameFilter}
-          onChange={handleNameFilter}
-        />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          number: <input
-            value={newNumber}
-            onChange={handleNumberChange}
-          />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul style={listStyle}>
-      {persons.filter(person => person.name.match(new RegExp(nameFilter, 'gi')))
-        .map(person =>
-          <li key={person.name}>
-            {person.name} {person.number}
-          </li>
-        )
-      }
-      </ul>
+      <Filter {...nameFilterProps} />
+      <h3>Add a new</h3>
+      <PersonForm  {...personFormProps}/>
+      <h3>Numbers</h3>
+      <Persons  {...personsProps}/>
     </div>
   )
 }
