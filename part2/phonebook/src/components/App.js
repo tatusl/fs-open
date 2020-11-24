@@ -3,12 +3,14 @@ import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
 import personService from '../services/persons'
+import Notification from './Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nameFilter, setNameFilter] = useState('')
+  const [notification, setNotification] = useState({message: null, type: null})
 
   useEffect(() => {
     personService.getAll().then(initialPersons => {
@@ -33,6 +35,10 @@ const App = () => {
         personService.update(existingPerson.id, personObject)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
+          setNotification({message: `Changed ${returnedPerson.name}'s number`, type: 'info'})
+          setTimeout(() => {
+            setNotification({message: null})
+          }, 2000)
         })
       }
     }
@@ -41,6 +47,10 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setNotification({message: `Added ${returnedPerson.name}`, type: 'info'})
+          setTimeout(() => {
+            setNotification({message: null})
+          }, 2000)
         })
     }
     setNewName('')
@@ -58,6 +68,13 @@ const App = () => {
     if (confirmDelete) personService
       .remove(person.id)
       .then(() => {
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+      .catch(() => {
+        setNotification({message: `Information of ${person.name} has already been removed from the server`, type: 'error'})
+        setTimeout(() => {
+          setNotification({message: null})
+        }, 2000)
         setPersons(persons.filter(p => p.id !== person.id))
       })
   }
@@ -84,6 +101,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <Filter {...nameFilterProps} />
       <h3>Add a new</h3>
       <PersonForm  {...personFormProps}/>
