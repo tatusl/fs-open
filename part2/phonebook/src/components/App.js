@@ -18,6 +18,13 @@ const App = () => {
     })
   }, [])
 
+  const triggerNotification = (message, type) => {
+    setNotification({message: message, type: type})
+    setTimeout(() => {
+      setNotification({message: null})
+    }, 2000)
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -35,10 +42,7 @@ const App = () => {
         personService.update(existingPerson.id, personObject)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
-          setNotification({message: `Changed ${returnedPerson.name}'s number`, type: 'info'})
-          setTimeout(() => {
-            setNotification({message: null})
-          }, 2000)
+          triggerNotification(`Changed ${returnedPerson.name}'s number`, 'info')
         })
       }
     }
@@ -47,10 +51,7 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
-          setNotification({message: `Added ${returnedPerson.name}`, type: 'info'})
-          setTimeout(() => {
-            setNotification({message: null})
-          }, 2000)
+          triggerNotification(`Added ${returnedPerson.name}`, 'info')
         })
     }
     setNewName('')
@@ -71,10 +72,7 @@ const App = () => {
         setPersons(persons.filter(p => p.id !== person.id))
       })
       .catch(() => {
-        setNotification({message: `Information of ${person.name} has already been removed from the server`, type: 'error'})
-        setTimeout(() => {
-          setNotification({message: null})
-        }, 2000)
+        triggerNotification(`Information of ${person.name} has already been removed from the server`, 'error')
         setPersons(persons.filter(p => p.id !== person.id))
       })
   }
