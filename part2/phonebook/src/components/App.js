@@ -36,9 +36,9 @@ const App = () => {
     if (personExists) {
       const existingPerson = persons.filter(person => person.name === personObject.name)[0]
       const confirmMessage = `${existingPerson.name} is already added to phonebook, replace the old number with a new one?`
-      const confirmDelete = window.confirm(confirmMessage)
+      const confirmChange = window.confirm(confirmMessage)
 
-      if (confirmDelete) {
+      if (confirmChange) {
         personService.update(existingPerson.id, personObject)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
