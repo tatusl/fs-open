@@ -42,7 +42,7 @@ const BasicCountryData = ({ country }) => {
       </ul>
       <img src={country.flag} alt={`Flag of ${country.name}`} width="150"></img>
       <h2>{`Weather in ${country.capital}`}</h2>
-      {weather ? <Weather weather={weather} /> : <h1>Loading weather data</h1>}
+      {weather && weatherstack_api_key ? <Weather weather={weather} /> : <h3>Loading weather data or API key not provided</h3>}
     </div>
   )
 }
