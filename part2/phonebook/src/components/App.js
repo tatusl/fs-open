@@ -57,7 +57,7 @@ const App = () => {
     const confirmDelete = window.confirm(`Delete ${person.name}`)
     if (confirmDelete) personService
       .remove(person.id)
-      .then(data => {
+      .then(() => {
         setPersons(persons.filter(p => p.id !== person.id))
       })
   }
