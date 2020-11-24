@@ -44,6 +44,15 @@ const App = () => {
 
   const handleNameFilter = (event) => setNameFilter(event.target.value)
 
+  const handlePersonDelete = (person) => {
+    const confirmDelete = window.confirm(`Delete ${person.name}`)
+    if (confirmDelete) personService
+      .remove(person.id)
+      .then(data => {
+        setPersons(persons.filter(p => p.id !== person.id))
+      })
+  }
+
   const nameFilterProps = {
     nameFilter,
     handleNameFilter
@@ -59,7 +68,8 @@ const App = () => {
 
   const personsProps = {
     persons,
-    nameFilter
+    nameFilter,
+    handlePersonDelete
   }
 
   return (
