@@ -29,7 +29,7 @@ const App = () => {
           id: 4
         }
       ]
-    }, 
+    },
     {
       name: 'Node.js',
       id: 2,
@@ -46,7 +46,7 @@ const App = () => {
         }
       ]
     }
-  ] 
+  ]
 
   return (
     <div>
@@ -54,7 +54,7 @@ const App = () => {
         course => <Course key={course.id} course={course} />
       )}
     </div>
-  ) 
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('root'))
