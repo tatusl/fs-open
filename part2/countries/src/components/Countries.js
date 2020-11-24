@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import BasicCountryData from './BasicCountryData'
 import Country from './Country'
 
