@@ -27,6 +27,9 @@ let persons = [
   },
 ]
 
+const generateId = () =>
+  Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER))
+
 app.get('/api/persons', (request, response) => {
   response.json(persons)
 })
@@ -39,6 +42,25 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.post('/api/persons/', (request, response) => {
+  const body = request.body
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: 'name and/or number missing',
+    })
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  }
+
+  persons = persons.concat(person)
+  response.json(person)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
