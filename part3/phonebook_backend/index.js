@@ -3,9 +3,30 @@ const morgan = require('morgan')
 
 const app = express()
 
-app.use(morgan('tiny'))
+const morgan_post_logging_format =
+  ':method :url :status :res[content-length] - :response-time ms :post_request_data'
+
+morgan.token('post_request_data', (req) => {
+  return JSON.stringify(req.body)
+})
 
 app.use(express.json())
+
+app.use(
+  morgan('tiny', {
+    skip: (req) => {
+      return req.method === 'POST'
+    },
+  })
+)
+
+app.use(
+  morgan(morgan_post_logging_format, {
+    skip: (req) => {
+      return req.method !== 'POST'
+    },
+  })
+)
 
 let persons = [
   {
