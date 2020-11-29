@@ -32,29 +32,6 @@ app.use(
   })
 )
 
-let persons = [
-  {
-    name: 'Arto Hellas',
-    number: '040-123456',
-    id: 1,
-  },
-  {
-    name: 'Ada Lovelace',
-    number: '39-44-5323523',
-    id: 2,
-  },
-  {
-    name: 'Dan Abramov',
-    number: '12-43-234345',
-    id: 3,
-  },
-  {
-    name: 'Mary Poppendieck',
-    number: '39-23-6423122',
-    id: 4,
-  },
-]
-
 app.get('/api/persons', (request, response, next) => {
   Person.find({})
     .then((result) => {
@@ -127,10 +104,13 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.get('/info', (request, response) => {
-  const response_msg = `Phonebook has info for ${persons.length} people <br/>
-    <br/>
-    ${new Date().toString()}`
-  response.send(response_msg)
+  Person.countDocuments({})
+    .then(personCount => {
+      const response_msg = `Phonebook has info for ${personCount} people <br/>
+        <br/>
+        ${new Date().toString()}`
+      response.send(response_msg)
+    })
 })
 
 const errorHandler = (error, request, response, next) => {
