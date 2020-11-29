@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+const Person = require('./models/person')
 
 const app = express()
 
@@ -54,21 +55,16 @@ let persons = [
   },
 ]
 
-const generateId = () =>
-  Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER))
-
 app.get('/api/persons', (request, response) => {
-  response.json(persons)
+  Person.find({}).then(result => {
+    response.json(result)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id)
-  const person = persons.find((person) => person.id === id)
-  if (person) {
+  Person.findById(request.params.id).then(person => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 
 app.post('/api/persons/', (request, response) => {
@@ -86,20 +82,14 @@ app.post('/api/persons/', (request, response) => {
     })
   }
 
-  if (persons.some((person) => person.name === body.name)) {
-    return response.status(400).json({
-      error: 'name must be unique',
-    })
-  }
-
-  const person = {
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  }
+  })
 
-  persons = persons.concat(person)
-  response.json(person)
+  person.save().then(savedPerson => {
+    response.json(savedPerson)
+  })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
