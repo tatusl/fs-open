@@ -87,7 +87,8 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   const opts = {
     new: true,
-    runValidators: true
+    runValidators: true,
+    context: 'query'
   }
 
   Person.findByIdAndUpdate(request.params.id, person, opts)
