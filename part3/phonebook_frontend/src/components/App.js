@@ -4,7 +4,6 @@ import PersonForm from './PersonForm'
 import Persons from './Persons'
 import personService from '../services/persons'
 import Notification from './Notification'
-
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
@@ -40,13 +39,13 @@ const App = () => {
 
       if (confirmChange) {
         personService.update(existingPerson.id, personObject)
-        .then(returnedPerson => {
-          setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
-          triggerNotification(`Changed ${returnedPerson.name}'s number`, 'info')
-        })
-        .catch(error => {
-          triggerNotification(error.response.data.error, 'error')
-        })
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
+            triggerNotification(`Changed ${returnedPerson.name}'s number`, 'info')
+          })
+          .catch(error => {
+            triggerNotification(error.response.data.error, 'error')
+          })
       }
     }
     else {
