@@ -44,6 +44,9 @@ const App = () => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
           triggerNotification(`Changed ${returnedPerson.name}'s number`, 'info')
         })
+        .catch(error => {
+          triggerNotification(error.response.data.error, 'error')
+        })
       }
     }
     else {
@@ -52,6 +55,9 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           triggerNotification(`Added ${returnedPerson.name}`, 'info')
+        })
+        .catch(error => {
+          triggerNotification(error.response.data.error, 'error')
         })
     }
     setNewName('')
