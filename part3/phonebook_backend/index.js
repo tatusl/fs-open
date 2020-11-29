@@ -42,7 +42,7 @@ app.get('/api/persons', (request, response, next) => {
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
-    .then(person => {
+    .then((person) => {
       console.log(person)
       if (person) {
         response.json(person)
@@ -56,24 +56,13 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons/', (request, response, next) => {
   const body = request.body
 
-  if (!body.name) {
-    return response.status(400).json({
-      error: 'name is missing',
-    })
-  }
-
-  if (!body.number) {
-    return response.status(400).json({
-      error: 'number is missing',
-    })
-  }
-
   const person = new Person({
     name: body.name,
     number: body.number,
   })
 
-  person.save()
+  person
+    .save()
     .then((savedPerson) => {
       response.json(savedPerson)
     })
@@ -93,24 +82,23 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   const person = {
     name: body.name,
-    number: body.number
+    number: body.number,
   }
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
-    .then(updatedPerson => {
+    .then((updatedPerson) => {
       response.json(updatedPerson)
     })
-    .catch(error => next(error))
+    .catch((error) => next(error))
 })
 
 app.get('/info', (request, response) => {
-  Person.countDocuments({})
-    .then(personCount => {
-      const response_msg = `Phonebook has info for ${personCount} people <br/>
+  Person.countDocuments({}).then((personCount) => {
+    const response_msg = `Phonebook has info for ${personCount} people <br/>
         <br/>
         ${new Date().toString()}`
-      response.send(response_msg)
-    })
+    response.send(response_msg)
+  })
 })
 
 const errorHandler = (error, request, response, next) => {
@@ -118,6 +106,8 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
 
   next(error)
