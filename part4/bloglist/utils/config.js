@@ -1,0 +1,15 @@
+const PORT = process.env.PORT
+const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD
+const MONGODB_USERNAME = process.env.MONGODB_USER
+const MONGODB_HOSTNAME = process.env.MONGODB_HOST
+const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME
+const MONGODB_URL = `mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_HOSTNAME}/${MONGODB_DB_NAME}?retryWrites=true`
+
+module.exports = {
+  PORT,
+  MONGODB_PASSWORD,
+  MONGODB_USERNAME,
+  MONGODB_HOSTNAME,
+  MONGODB_DB_NAME,
+  MONGODB_URL,
+}
