@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -5,6 +7,17 @@ const dummy = (blogs) => {
 const totalLikes = (blogs) => {
   const sum = blogs.reduce((sum, item) => sum + item.likes, 0)
   return sum
+}
+
+// There might more elegant and "correct" way to do this with lodash, but this has to at this moment
+const mostBlogs = (blogs) => {
+  const mostBlogsAuthor = _(blogs).countBy('author').toPairs().max(_.last)
+  return blogs.length === 0
+    ? undefined
+    : {
+        author: mostBlogsAuthor[0],
+        blogs: mostBlogsAuthor[1],
+      }
 }
 
 const favoriteBlog = (blogs) => {
@@ -17,5 +30,6 @@ const favoriteBlog = (blogs) => {
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
 }
