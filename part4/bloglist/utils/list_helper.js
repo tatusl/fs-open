@@ -18,7 +18,7 @@ const mostBlogs = (blogs) => _(blogs)
 const favoriteBlog = (blogs) => {
   return blogs.reduce(
     (max, blog) => (max && max.likes > blog.likes ? max : blog),
-    null
+    undefined
   )
 }
 

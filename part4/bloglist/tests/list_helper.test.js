@@ -91,9 +91,9 @@ describe('total likes', () => {
 })
 
 describe('favorite blog', () => {
-  test('of empty list is null', () => {
+  test('of empty list is undefined', () => {
     const result = listHelper.favoriteBlog([])
-    expect(result).toBe(null)
+    expect(result).toBe(undefined)
   })
 
   test('when list has only one blog, that blog is the favorite', () => {
