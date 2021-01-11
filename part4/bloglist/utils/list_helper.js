@@ -9,16 +9,11 @@ const totalLikes = (blogs) => {
   return sum
 }
 
-// There might more elegant and "correct" way to do this with lodash, but this has to at this moment
-const mostBlogs = (blogs) => {
-  const mostBlogsAuthor = _(blogs).countBy('author').toPairs().max(_.last)
-  return blogs.length === 0
-    ? undefined
-    : {
-        author: mostBlogsAuthor[0],
-        blogs: mostBlogsAuthor[1],
-      }
-}
+const mostBlogs = (blogs) => _(blogs)
+  .countBy('author')
+  .toPairs()
+  .map((blog) => ({ author: blog[0], blogs: blog[1] }))
+  .maxBy('blogs')
 
 const favoriteBlog = (blogs) => {
   return blogs.reduce(
