@@ -136,7 +136,7 @@ describe('most blogs', () => {
     })
   })
 
-  test('of bigger list is presented correctly', () => {
+  test('of bigger list is calculated and presented correctly', () => {
     const result = listHelper.mostBlogs(listWithMultipleBlogs)
     expect(result).toEqual({
       author: 'Robert C. Martin',
@@ -159,7 +159,7 @@ describe('most likes', () => {
     })
   })
 
-  test('of bigger list is presented correctly', () => {
+  test('of bigger list is calculated and presented correctly', () => {
     const result = listHelper.mostLikes(listWithMultipleBlogs)
     expect(result).toEqual({
       author: 'Edsger W. Dijkstra',
